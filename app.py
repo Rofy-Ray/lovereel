@@ -1,4 +1,9 @@
 import streamlit as st
+st.set_page_config(
+        page_title="LoveReel",
+        page_icon="🎬",
+        menu_items=None
+    )
 from flows import creator, recipient
 from utils.helpers import cleanup_temp_files
 from flows.creator import creator_flow

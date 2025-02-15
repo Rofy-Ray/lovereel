@@ -90,21 +90,26 @@ def _handle_question_step():
         qa_data.append({"question": question, "answer": answer})
     
     if st.button("Generate Story"):
-        try:
-            memories = [
-                Memory(**m) for m in st.session_state.story_data["memories"]
-            ]
-            personal_qa = [
-                QAPair(**qa) for qa in qa_data  
-            ]
-            
-            story_data = StoryCreate(memories=memories, personal_qa=personal_qa)
-            _generate_content(story_data)
-            
-        except Exception as e:
-            _handle_error(e)
-            st.session_state.current_step = 0
-            st.rerun()
+        if all(q["question"] and q["answer"] for q in qa_data):
+            try:
+                memories = [
+                    Memory(**m) for m in st.session_state.story_data["memories"]
+                ]
+                personal_qa = [
+                    QAPair(**qa) for qa in qa_data  
+                ]
+                
+                story_data = StoryCreate(memories=memories, personal_qa=personal_qa)
+                _generate_content(story_data)
+                
+            except Exception as e:
+                _handle_error(e)
+                st.session_state.current_step = 0
+                st.rerun()
+   
+        else:
+            st.error("Please fill all question and answer fields before proceeding!")
+
 
 def _generate_content(story_data: StoryCreate):
     """Handle story generation process"""
