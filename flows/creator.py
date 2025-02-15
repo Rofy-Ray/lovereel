@@ -4,6 +4,7 @@ from core.database import Database
 from core.ai_client import DeepSeekClient
 from models.schemas import StoryCreate, Memory, QAPair
 from utils.helpers import format_shareable_link
+import traceback
 import logging
 
 logging.basicConfig(level=logging.INFO)
